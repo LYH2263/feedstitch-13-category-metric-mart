@@ -25,6 +25,22 @@ docker compose up --build
 
 打开“运行台”选源跑一次增量，再看 Staging / 冲突 / Canonical 三页计数是否与本次 Run 报告一致。
 
+## 类目指标集市（category_metric_mart）
+
+“指标集市”页基于**当前有效 Canonical 主数据**实时聚合，不缓存手工数；点击“一键刷新指标”会重建整批类目指标并落库（表 `category_metrics`，批次表 `metric_refresh_runs`），刷新可重复执行，主数据变化后再次刷新即反映新口径，并会提示旧批次已过期。
+
+口径（全部仅来自 `canonical_items`，与主数据列表同源）：
+
+| 指标 | 口径 |
+| --- | --- |
+| 件数 item_count | `COUNT(*)`，各类目 Canonical 货号件数 |
+| 价格合计 price_total | `SUM(price)` |
+| 均价 price_avg | `AVG(price)`（= 价格合计 / 件数） |
+| 最低价 / 最高价 | `MIN(price)` / `MAX(price)` |
+| 件数占比 count_share | 类目件数 / 主数据总件数 |
+
+每个刷新批次的报告含三项对账：各类目件数之和 = 主数据总件数、指标行数 = 主数据去重类目数、各类目价格合计之和 = 主数据价格合计；前端报告区逐项展示 PASS/FAIL。API：`GET /api/metric-mart`、`POST /api/metric-mart/refresh`、`GET /api/metric-mart/runs`。
+
 ## 技术栈
 
 Python 3.12 + FastAPI + SQLite；Vue 3 + Vite + Nginx。
@@ -34,5 +50,5 @@ Python 3.12 + FastAPI + SQLite；Vue 3 + Vite + Nginx。
 `lookback_backfill` / `schema_drift_guard` / `dead_letter_replay` / `webhook_push_source` /
 `source_authority_rank` / `tombstone_retire` / `scd2_history` / `watermark_commit_gate` /
 `field_map_transform` / `lineage_provenance` /
-`fixture_dir_harvest` / `bronze_silver_promote` / `category_metric_mart` / `pii_mask_export` /
+`fixture_dir_harvest` / `bronze_silver_promote` / `pii_mask_export` /
 `rpa_form_queue`

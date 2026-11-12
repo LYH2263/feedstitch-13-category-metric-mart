@@ -1,4 +1,5 @@
 from app.db import connect
+from app.modules.category_metric_mart import init_schema as init_metric_schema
 
 
 def init_db():
@@ -104,4 +105,6 @@ def init_db():
         conn.execute("INSERT INTO settings(key, value) VALUES ('project_label', 'Feedstitch')")
         conn.execute("INSERT INTO settings(key, value) VALUES ('default_mode', 'incremental')")
         conn.commit()
+    init_metric_schema(conn)
+    conn.commit()
     conn.close()

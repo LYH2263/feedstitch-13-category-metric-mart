@@ -7,6 +7,7 @@ import Staging from './pages/Staging.vue'
 import Conflicts from './pages/Conflicts.vue'
 import Canonical from './pages/Canonical.vue'
 import Watermarks from './pages/Watermarks.vue'
+import MetricMart from './pages/MetricMart.vue'
 
 export default createRouter({
   history: createWebHistory(),
@@ -19,5 +20,6 @@ export default createRouter({
     { path: '/conflicts', component: Conflicts },
     { path: '/canonical', component: Canonical },
     { path: '/watermarks', component: Watermarks },
+    { path: '/metrics', component: MetricMart },
   ],
 })

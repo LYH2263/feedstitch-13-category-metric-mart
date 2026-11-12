@@ -9,6 +9,7 @@
       <router-link to="/staging">Staging</router-link>
       <router-link to="/conflicts">冲突队列</router-link>
       <router-link to="/canonical">Canonical</router-link>
+      <router-link to="/metrics">指标集市</router-link>
       <router-link to="/watermarks">水位线</router-link>
     </aside>
     <main><router-view /></main>
